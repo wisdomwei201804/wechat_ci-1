@@ -6,5 +6,15 @@ define("APPSECRET", "f17c7c6xxxxxxxxxxxxx0ab");//微信的APPSECRET
 
 class CI_Wechat {//定义微信类
 
+	private $_CI;
+	private $access_token;
+	
+	public function __construct() {
+
+	    $this->_CI =& get_instance();//用于自定义的类
+	    //加载cache
+	    $this->_CI->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+
+	}
 
 ｝

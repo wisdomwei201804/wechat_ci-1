@@ -188,6 +188,23 @@ class CI_Wechat {//定义微信类
 	    return $openid;
 	}
 
+	/**
+	 * 获取用户信息
+	 * 可以传递指定opeid,获取指定用户的信息
+	 * 不传递参数时，获取当前用户信息，前提必须先进行网页授权
+	 * @param string $openid　用户openid
+	 * @return array $user_info
+	 */
+	function get_user_info($openid=NULL) {
+	    $access_token = $this -> checkAuth();
+	    if(!$openid){
+	        $openid = $this -> get_open_id();
+	    }
+	    $user_info = $this -> http_get('https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$access_token.'&openid='.$openid);
+	    $user_info = json_decode($user_info);
+	    return $user_info;
+	}
+
 
 
 

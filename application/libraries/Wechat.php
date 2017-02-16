@@ -17,4 +17,28 @@ class CI_Wechat {//定义微信类
 
 	}
 
+	/**
+	 * 构造http请求，post方式
+	 * @param url string 请求路径
+	 * @param post_data json格式的字符串
+	 * @return http请求结果
+	 */
+	private function http_post($url, $post_data = '') {
+	     $curl = curl_init();
+	     curl_setopt($curl, CURLOPT_URL, $url);
+	     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+	     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+	     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	     if ($post_data) {
+	         curl_setopt($curl, CURLOPT_POST, 1);
+	         curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+	     }
+	     $result = curl_exec($curl);
+	     if (curl_errno($curl)) {
+	         return 'Errno' . curl_error($curl);
+	     }
+	     curl_close($curl);
+	     return $result;
+	 }
+
 ｝

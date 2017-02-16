@@ -165,6 +165,22 @@ class CI_Wechat {//定义微信类
 	}
 
 	/**
+	 * 向用户推送消息
+	 * @param array 其中msgtype代表消息类型：text为文本，news为图文
+	 */
+	function push_message($msg_data) {
+
+	    $access_token = $this->checkAuth();
+	    //测试发布信息
+	    $url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=" . $access_token;
+	    //正式发布信息
+	    //$url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $this->access_token;
+
+	    $result = $this -> http_post($url, json_encode($msg_data));
+	    return json_decode($result);
+	}
+
+	/**
 	 * 获取open_id
 	 * 获取openid必须先进行网页授权，具体看手册
 	 * @return openid

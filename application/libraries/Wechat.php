@@ -253,6 +253,20 @@ class CI_Wechat {//定义微信类
         return $res->ticket;
     }
 
+     /**
+	 * 生成带参数的二维码
+	 * @param boolean $bool　tuer：永久，false：为临时，
+	 * @param string $scene_id　参数
+	 * @return string 二维码票据的html代码
+	 */
+    function getQrcode($bool,$scene_id){
+        $qrcode_ticket = $this -> getQrcodeTicket($bool,$scene_id);
+        $url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=".urlencode($qrcode_ticket);
+        $res = '<img src="'.$url.'" alt="">';
+        return $res;
+
+    }
+
 
 
 

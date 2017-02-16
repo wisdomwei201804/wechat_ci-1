@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-	<title>user_name</title>
+	<title>js_sdk</title>
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script src="http://cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
 </head>

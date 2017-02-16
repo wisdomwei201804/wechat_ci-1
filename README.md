@@ -1,0 +1,5 @@
+# wechat_ci
+微信sdk－－基于php的CI框架
+使用本程序，需要对ci框架有一定了解
+步骤１：开启微信的开发者模式，将application下的libraries里面的wechat.php里面的定义的三个常量改写成和你微信后台一样。
+步骤２：将微信后台绑定服务器的url指向控制器里的weixin.php

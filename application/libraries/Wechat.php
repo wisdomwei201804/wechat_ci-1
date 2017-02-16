@@ -79,7 +79,37 @@ class CI_Wechat {//定义微信类
 
 	 */
 	
+	/**
+	 * 获取access_token
+	 * @param string $appid 如在类初始化时已提供，则可为空
+	 * @param string $appsecret 如在类初始化时已提供，则可为空
+	 * @param string $token 手动指定access_token，非必要情况不建议用
+	 */
+	private function checkAuth(){
+	    $authname = 'wechat_access_token_'.APPID;
+	    if ($rs = $this->getCache($authname))  {
+	        $this->access_token = $rs;
+	        return $rs;
+	    }
 
+
+
+	    $result = $this->http_get('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.APPID.'&secret='.APPSECRET);
+	    if ($result)
+	    {
+	        $json = json_decode($result,true);
+	        if (!$json || isset($json['errcode'])) {
+	            $this->errCode = $json['errcode'];
+	            $this->errMsg = $json['errmsg'];
+	            return false;
+	        }
+	        $this->access_token = $json['access_token'];
+	        $expire = $json['expires_in'] ? intval($json['expires_in'])-100 : 3600;
+	        $this->setCache($authname,$this->access_token,$expire);
+	        return $this->access_token;
+	    }
+	    return false;
+	}
 
 
 	/**

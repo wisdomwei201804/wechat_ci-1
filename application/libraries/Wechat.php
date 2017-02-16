@@ -307,5 +307,25 @@ class CI_Wechat {//定义微信类
         return $tmpstr;
     }
 
+    /**
+     * js_sdk辅助函数
+     *　用于引入js_sdk页面的js的config
+     * @param string $url 调用js_sdk页面的url,可以写死，也可以使用php全局函数来获取
+     */
+    function jsSdk($url){
+        $jsticket = $this->getJsApiTicket();
+        $nonceStr = $this->getRandCode();
+        $timestamp = time();
+        $signature = "jsapi_ticket=".$jsticket."&noncestr=".$nonceStr."&timestamp=".$timestamp."&url=".$url;
+        $signature = sha1($signature);
+        $arr = array(
+            "nonceStr" =>$nonceStr,
+            "timestamp" => $timestamp,
+            "signature" => $signature,
+            "jsticket" => $jsticket,
+            "url" => $url
+        );
+        return $arr;
+    }
 
 ｝

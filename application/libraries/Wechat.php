@@ -290,7 +290,22 @@ class CI_Wechat {//定义微信类
         }
         return false;
     }
-
+    /**
+     * 生成随机字符串，默认长度为１６
+     * @param int $num 生成字符串的长度，默认为16
+     */
+    function getRandCode($num = 16){
+        $array = array(
+            "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"
+        );
+        $tmpstr = "";
+        $max = count($array);
+        for($i=1; $i<=$num; $i++){
+            $key = rand(0,$max-1);
+            $tmpstr .= $array[$key];
+        }
+        return $tmpstr;
+    }
 
 
 ｝

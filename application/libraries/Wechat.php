@@ -205,7 +205,19 @@ class CI_Wechat {//定义微信类
 	    return $user_info;
 	}
 
-
+	/**
+	 * 获取openid列表
+	 * @param string $next_openid　第一个拉取的OPENID，不填默认从头开始拉取
+	 * 一次拉取调用最多拉取10000个关注者的OpenID，可以通过设置$next_openid多次拉取的方式来满足需求。
+	 * @return array $openid_list
+	 */
+	function open_id_list($next_openid = null){
+	    $access_token = $this -> checkAuth();
+	    $url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=".$access_token."&next_openid=".$next_openid;
+	    $openid_list = $this -> http_get($url);
+	    $openid_list = json_decode($openid_list);
+	    return $openid_list -> data->openid;
+	}
 
 
 

@@ -81,9 +81,7 @@ class CI_Wechat {//定义微信类
 	
 	/**
 	 * 获取access_token
-	 * @param string $appid 如在类初始化时已提供，则可为空
-	 * @param string $appsecret 如在类初始化时已提供，则可为空
-	 * @param string $token 手动指定access_token，非必要情况不建议用
+	 * 用于调用微信各种api
 	 */
 	private function checkAuth(){
 	    $authname = 'wechat_access_token_'.APPID;
@@ -267,6 +265,31 @@ class CI_Wechat {//定义微信类
 
     }
 
+
+    /**
+     * 获取js_api_token
+     * 用于微信js_sdk_api的调用
+     */
+    private function getJsApiTicket(){
+        $jsapi = 'wechat_jsapi_ticket_'.APPID;
+        if ($rs = $this->getCache($jsapi)){
+            $this->jsapi_ticket = $rs;
+            return $rs;
+        }
+
+        $access_token = $this->checkAuth();
+        $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$access_token."&type=jsapi";
+        $result = $this->http_get($url);
+        if ($result)
+        {
+            $json = json_decode($result,true);
+            $this->jsapi_ticket = $json['ticket'];
+            $expire = $json['expires_in'] ? intval($json['expires_in'])-100 : 3600;
+            $this->setCache($jsapi,$this->jsapi_ticket,$expire);
+            return $this->jsapi_ticket;
+        }
+        return false;
+    }
 
 
 

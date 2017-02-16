@@ -166,6 +166,27 @@ class CI_Wechat {//定义微信类
 	    return $res;
 	}
 
+	/**
+	 * 获取open_id
+	 * 获取openid必须先进行网页授权，具体看手册
+	 * @return openid
+	 */
+	function get_open_id() {
+	    if (isset($_GET['code'])) {
+	        $code = $_GET['code'];
+	    } else {
+	        echo "NO CODE";
+	    }
+	    // 运行cURL，请求网页
+	    $data = $this -> http_post('https://api.weixin.qq.com/sns/oauth2/access_token?appid=' . APPID . '&secret=' . APPSECRET . '&code=' . $code . '&grant_type=authorization_code');
+	    // 获取access_token；
+	    $reg = "#{.+}#";
+	    preg_match_all($reg, $data, $matches);
+	    $json = $matches[0][0];
+	    $accessArr = json_decode($json, true);
+	    $openid = $accessArr['openid'];
+	    return $openid;
+	}
 
 
 

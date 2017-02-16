@@ -141,6 +141,30 @@ class CI_Wechat {//定义微信类
 	    return $this->_CI->cache->delete($cachename);
 	}
 
+	/**
+	 * 发送模板消息
+	 * @param string $openid　用户openid
+	 * @param string $tempid　模板id
+	 * @param string $url　跳转的路径
+	 * @return boolean
+	 */
+	function sendTemplateMsg($openid,$tempid,$url){
+	    $access_token = $this -> checkAuth();
+	    $send_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=".$access_token;
+	    $array = array(
+	        "touser"=>$openid,
+	        "template_id"=>$tempid,
+	        "url"=>$url, 
+	        "data" => array(
+	            "name" =>array("value"=>"hello！","color"=>"#173177"),
+	            "money" =>array("value"=>"111","color"=>"#173177"),
+	            "date" =>array("value"=>date('Y-m-d H:i:s'),"color"=>"#173177")
+	        ), 
+	    );
+	    $postJson = json_encode($array);
+	    $res = $this->http_post($send_url,$postJson);
+	    return $res;
+	}
 
 
 

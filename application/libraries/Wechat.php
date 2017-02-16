@@ -69,7 +69,47 @@ class CI_Wechat {//定义微信类
 	         return false;
 	     }
 	 }
+	 /*
+	
+		由于微信的access_token的有效期为７２００秒，而且access_token有次数限制，
+		所以为了解决，在access_token有效期不去重新获取access_token，我们使用缓存
+		把access_token保存起来并且有效期设置小于7200秒，当我们使用access_token时
+		首先判断缓存的access_token是否有效，如果有效直接使用缓存的access_token，如果无效
+		就是用http请求再次获取access_token，并且更新缓存。
 
+	 */
+	
+
+
+
+	/**
+	 * 重载设置缓存
+	 * @param string $cachename
+	 * @param mixed $value
+	 * @param int $expired
+	 * @return boolean
+	 */
+	private function setCache($cachename, $value, $expired) {
+	    return $this->_CI->cache->save($cachename, $value, $expired);
+	}
+
+	/**
+	 * 重载获取缓存
+	 * @param string $cachename
+	 * @return mixed
+	 */
+	private function getCache($cachename) {
+	    return $this->_CI->cache->get($cachename);
+	}
+
+	/**
+	 * 重载清除缓存
+	 * @param string $cachename
+	 * @return boolean
+	 */
+	private function removeCache($cachename) {
+	    return $this->_CI->cache->delete($cachename);
+	}
 
 
 

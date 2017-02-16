@@ -16,6 +16,11 @@ class CI_Wechat {//定义微信类
 	    $this->_CI->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 
 	}
+	/**
+	 * 在微信开发时，很多功能（ＡＰＩ）都是通过http请求完成的，
+	 *　例如：获取用户信息，获取js_api_token等等
+	 *　所以封装http请求函数
+	*/
 
 	/**
 	 * 构造http请求，post方式

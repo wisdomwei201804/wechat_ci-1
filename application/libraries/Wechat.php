@@ -220,6 +220,40 @@ class CI_Wechat {//定义微信类
 	}
 
 
+	
+    /**
+	 * 生成带参数的二维码票据
+	 * @param boolean $bool　tuer：永久，false：为临时，
+	 * @param string $scene_id　参数
+	 * @return string 二维码票据
+	 */
+    function getQrcodeTicket($bool,$scene_id){
+        if($bool){
+            $array = array(
+                "action_name"=>"QR_LIMIT_SCENE",
+                "action_info" => array(
+                    "scene" =>array("scene_id"=>$scene_id)
+                )
+            );
+
+        }else{
+            $array = array(
+                "expire_seconds"=>604800,//有效时间
+                "action_name"=>"QR_SCENE",//二维码类型
+                "action_info" => array(
+                    "scene" =>array("scene_id"=>$scene_id)//参数
+                ), 
+            );
+        }
+        $access_token = $this -> checkAuth();
+        $send_url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=".$access_token;
+        $postJson = json_encode($array);
+        $res = $this->http_post($send_url,$postJson);
+        $res = json_decode($res);
+        return $res->ticket;
+    }
+
+
 
 
 ｝
